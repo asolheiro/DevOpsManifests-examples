@@ -1,0 +1,83 @@
+version: '3.8'
+services:
+  giropops-senhas:
+    build:
+      conteixt: ./dockerfiles
+      dockerfile: Dockerfile
+    container_name: giropops-senhas-container
+    ports:
+      - "5000:5000"
+    networks: 
+      - giropops-network
+    environment:
+      REDIS_HOST: redis
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: strigus
+        target: /strigus
+    depend_on:
+      - redis
+    labels:
+      com.docker.description: "App 'Giropops senhas'"
+      com.docker.version: "1.0"      
+    deploy:
+      replicas: 4
+      update_config:
+        parallelism: 2
+        delay: 10s  
+      resources:
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+        limits: 
+          cpus: '0.5'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attemps: 3
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+
+  redis:
+    image: redis
+    container_name: redis-container
+    command: redis-server --appendonly yes
+    networks:
+      - giropops-network
+    volumes: 
+      - strigus:/strigus
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      com.docker.description: "Redis server"
+      com.docker.version: "Latest"
+
+networks:
+  giropops:
+    driver: bridge
+    ipam:
+      driver: dafault
+      config:
+        - subnet: "172.20.0.0/16"
+    labels:
+      io.linuxtips.network: "Giropops network"  
+volumes:
+  strigus:
+    driver: local
+    driver_opts:
+      type: "none"
+      device: /home/jefesorson/docker
+      o: "bind"
+    labels:
+      io.linuxtips.volume: "strigus_volume"  
+
