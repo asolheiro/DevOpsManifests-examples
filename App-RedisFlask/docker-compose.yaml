@@ -6,7 +6,11 @@ services:
       dockerfile: Dockerfile
     container_name: giropops-senhas-container
     ports:
-      - "5000:5000"
+      - name: web
+        target: 5000
+        published: 8080
+        protocol: tcp
+        mode: ingress
     networks: 
       - giropops-network
     environment:
