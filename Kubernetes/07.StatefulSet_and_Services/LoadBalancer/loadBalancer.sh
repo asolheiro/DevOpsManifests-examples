@@ -14,3 +14,12 @@ kubectl get svc
 
 echo "Deleting service..."
 kubectl delete svc nginx-deployment
+
+echo "Creating LoadBalancer service using manifest file..."
+kubectl apply -f loadBalancer.yaml
+
+echo "Getting service informations..."
+kubectl get service
+
+echo "Deleting service..."
+kubectl delete service nginx-LoadBalancer

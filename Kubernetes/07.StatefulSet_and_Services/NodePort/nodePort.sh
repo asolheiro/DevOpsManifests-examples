@@ -12,3 +12,15 @@ kubectl expose deployment nginx-deployment \
 echo "Getting service information..."
 echo "Take a look at ClusterIP value. It's the default but it's also always created"
 kubectl get svc
+
+echo "Deleting service..."
+kubectl delete svc nginx-deployment
+
+echo "Creating NodePort service using manifest file..."o
+kubectl apply -f nodePort.yaml
+
+echo "Getting service informations..."
+kubectl get svc
+
+echo "Deleting NodePort service..."
+kubectl delete service nginx-NodePort

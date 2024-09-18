@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx
+  name: nginx-ExternalName
+spec:
+  type: ExternalName
+  externalName: strigus.girus.com.br

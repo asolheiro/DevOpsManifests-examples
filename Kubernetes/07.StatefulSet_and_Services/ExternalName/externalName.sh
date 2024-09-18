@@ -17,3 +17,12 @@ kubectl get services
 
 echo "Deleting ExternalName service"
 kubectl delete giropops-db
+
+echo "Creating service using manifest file..."
+kubectl apply -f externalName.yaml
+
+echo "Getting service informations..."
+kubectl get services
+
+echo "Deleting ExternaName service..."
+kubectl delete svc nginx-ExternalName
