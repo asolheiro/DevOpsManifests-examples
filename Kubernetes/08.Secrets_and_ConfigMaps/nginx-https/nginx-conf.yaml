@@ -21,8 +21,8 @@ data:
             listen 8080;
             listen 443 ssl;
 
-            ssl_certificate /etc/nginx/tls/tls.crt;
-            ssl_certificate_key /etc/nginx/tls/tls.key;
+            ssl_certificate /etc/nginx/tls/nginx.crt;
+            ssl_certificate_key /etc/nginx/tls/nginx.key;
 
             server_name localhost;
 
