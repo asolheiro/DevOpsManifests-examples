@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+        - containerPort: 443
+      resources:
+        limits:
+          cpu: "0.5"
+          memory: 256 Mi
+        requests:
+          cpu: "0.3"
+          memory: 128 Mi
+      volumeMounts:
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+volumes:
+- name: nginx-config-volume
+  configMap:
+    name: nginx-config
